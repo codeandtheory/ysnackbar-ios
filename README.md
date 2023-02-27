@@ -1,7 +1,9 @@
-# Y—Snackbar
+![Y—Snackbar](https://user-images.githubusercontent.com/1037520/221581980-3961ac0e-2804-4a91-a129-918788dd3353.jpeg)
 _An easy-to-use UI component to display brief, transient messages to the user._
 
 This framework allows you to add transient in-app messaging to your application. Multiple messages will stack using fluid animations. Messages can be fully themed and set to either expire after a specified time interval or to remain on-screen until dismissed.
+
+![Snackbar demo animation](https://user-images.githubusercontent.com/1037520/221582361-e040414c-973b-4b14-9de8-645a11757471.gif)
 
 Licensing
 ----------
