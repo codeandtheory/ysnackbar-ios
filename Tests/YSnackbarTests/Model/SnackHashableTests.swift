@@ -1,0 +1,113 @@
+//
+//  SnackHashableTests.swift
+//  YSnackbar
+//
+//  Created by Karthik K Manoj on 12/09/22.
+//  Copyright © 2023 Y Media Labs. All rights reserved.
+//
+
+import XCTest
+import YSnackbar
+
+final class SnackHashableTests: XCTestCase {
+    func test_snackHashValue_isNotEqualWhenFirstSnackReuseIdentifierIsNil() {
+        let snack1 = makeSUT(title: nil, message: "No network 1", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: nil, message: "No network 2", reuseIdentifier: "yml.com.snackbar2")
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenSecondSnackReuseIdentifierIsNil() {
+        let snack1 = makeSUT(title: nil, message: "No network 1", reuseIdentifier: "yml.com.snackbar1")
+        let snack2 = makeSUT(title: nil, message: "No network 2", reuseIdentifier: nil)
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenReuseIdentifiersAreNil() {
+        let snack1 = makeSUT(title: nil, message: "No network 1", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: nil, message: "No network 2", reuseIdentifier: nil)
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenReuseIdentifiersDoNotMatch() {
+        let snack1 = makeSUT(title: nil, message: "No network 1", reuseIdentifier: "yml.com.snackbar1")
+        let snack2 = makeSUT(title: nil, message: "No network 2", reuseIdentifier: "yml.com.snackbar2")
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isEqualWhenReuseIdentifiersMatch() {
+        let snack1 = makeSUT(title: nil, message: "No network 1", reuseIdentifier: "yml.com.snackbar")
+        let snack2 = makeSUT(title: nil, message: "No network 2", reuseIdentifier: "yml.com.snackbar")
+
+        XCTAssertEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenTitlesMatchAndMessagesDoNotMatch() {
+        let snack1 = makeSUT(title: "Connectivity", message: "No network 1", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: "Connectivity", message: "No network 2", reuseIdentifier: nil)
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenMessagesMatchAndTitlesDoNotMatch() {
+        let snack1 = makeSUT(title: "Connectivity 1", message: "No network", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: "Connectivity 2", message: "No network", reuseIdentifier: nil)
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenMessagesMatchAndFirstSnackTitleIsNil() {
+        let snack1 = makeSUT(title: nil, message: "No network", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: "Connectivity 2", message: "No network", reuseIdentifier: nil)
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isNotEqualWhenMessagesMatchAndSecondSnackTitleIsNil() {
+        let snack1 = makeSUT(title: "Connectivity 1", message: "No network", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: nil, message: "No network", reuseIdentifier: nil)
+
+        XCTAssertNotEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isEqualWhenMessagesMatchAndTitlesAreNil() {
+        let snack1 = makeSUT(title: nil, message: "No network", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: nil, message: "No network", reuseIdentifier: nil)
+
+        XCTAssertEqual(snack1.hashValue, snack2.hashValue)
+    }
+
+    func test_snackHashValue_isEqualWhenMessagesAndTitlesMatch() {
+        let snack1 = makeSUT(title: "Connectivity", message: "No network", reuseIdentifier: nil)
+        let snack2 = makeSUT(title: "Connectivity", message: "No network", reuseIdentifier: nil)
+
+        XCTAssertEqual(snack1.hashValue, snack2.hashValue)
+    }
+}
+
+private extension SnackHashableTests {
+    func makeSUT(
+        title: String? = nil,
+        message: String,
+        reuseIdentifier: String? = nil,
+        icon: UIImage? = nil,
+        duration: TimeInterval = 4.0,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> Snack {
+        let sut = Snack(
+            title: title,
+            message: message,
+            reuseIdentifier: reuseIdentifier,
+            icon: icon,
+            duration: duration
+        )
+
+        trackForMemoryLeaks(sut, file: file, line: line)
+
+        return sut
+    }
+}
