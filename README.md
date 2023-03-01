@@ -1,4 +1,5 @@
 ![Y—Snackbar](https://user-images.githubusercontent.com/1037520/221581980-3961ac0e-2804-4a91-a129-918788dd3353.jpeg)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fyml-org%2Fysnackbar-ios%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/yml-org/ysnackbar-ios) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fyml-org%2Fysnackbar-ios%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/yml-org/ysnackbar-ios)  
 _An easy-to-use UI component to display brief, transient messages to the user._
 
 This framework allows you to add transient in-app messaging to your application. Multiple messages will stack using fluid animations. Messages can be fully themed and set to either expire after a specified time interval or to remain on-screen until dismissed.
