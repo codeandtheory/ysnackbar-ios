@@ -26,10 +26,18 @@ public class SnackbarManager {
         self.alignment = alignment
     }
 
-    /// Control animation duration and spacing
-    public var appearance = Appearance() {
+    internal var appearance: Appearance = .default {
         didSet {
             containerView?.appearance = appearance
+        }
+    }
+
+    /// Control animation duration and spacing
+    public static var appearance: Appearance {
+        get { sharedTop.appearance }
+        set {
+            sharedTop.appearance = newValue
+            sharedBottom.appearance = newValue
         }
     }
 
@@ -110,7 +118,7 @@ public class SnackbarManager {
 private extension SnackbarManager {
     func makeContainerViewIfNeeded() {
         if containerView == nil {
-            let containerView = SnackContainerView(alignment: alignment, appearance: Appearance())
+            let containerView = SnackContainerView(alignment: alignment, appearance: appearance)
             containerView.delegate = self
             self.containerView = containerView
         }

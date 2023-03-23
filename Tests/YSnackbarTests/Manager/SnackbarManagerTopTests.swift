@@ -260,24 +260,28 @@ final class SnackbarManagerTopTests: XCTestCase {
         XCTAssertEqual(sut.appearance.contentInset, NSDirectionalEdgeInsets(all: 16.0))
         XCTAssertEqual(sut.appearance.snackSpacing, 16.0)
         XCTAssertEqual(sut.appearance.maxSnackWidth, 428.0)
+        XCTAssertEqual(sut.appearance, .default)
+        XCTAssertEqual(sut.containerView?.appearance, .default)
     }
 
     func test_newAppearanceOnAddingSnackAtTheTop() {
         let sut = makeSUT()
-
-        sut.appearance = SnackbarManager.Appearance(
+        let appearance = SnackbarManager.Appearance(
             addAnimationDuration: 0.7,
             removeAnimationDuration: 0.7,
             snackSpacing: 24.0,
             contentInset: NSDirectionalEdgeInsets(all: 24.0)
         )
 
+        sut.appearance.addAnimationDuration = 0.7
+        sut.appearance.removeAnimationDuration = 0.7
+        sut.appearance.snackSpacing = 24.0
+        sut.appearance.contentInset = NSDirectionalEdgeInsets(all: 24.0)
+
         sut.add(snack: Snack(message: ""))
 
-        XCTAssertEqual(sut.appearance.addAnimationDuration, 0.7)
-        XCTAssertEqual(sut.appearance.removeAnimationDuration, 0.7)
-        XCTAssertEqual(sut.appearance.contentInset, NSDirectionalEdgeInsets(all: 24.0))
-        XCTAssertEqual(sut.appearance.snackSpacing, 24.0)
+        XCTAssertEqual(sut.appearance, appearance)
+        XCTAssertEqual(sut.containerView?.appearance, appearance)
     }
 }
 
@@ -288,7 +292,7 @@ extension SnackbarManagerTopTests {
         sut.removeAllSnack()
 
         if loadContainerView {
-            let containerView = SnackContainerViewSpy(alignment: .top, appearance: SnackbarManager.Appearance())
+            let containerView = SnackContainerViewSpy(alignment: .top, appearance: .default)
             sut.updateContainerView(containerView)
         } else {
             sut.didRemoveContainerView()

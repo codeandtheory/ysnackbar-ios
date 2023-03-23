@@ -85,14 +85,14 @@ private extension SnackTests {
             duration: duration
         )
 
-        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeak(sut, file: file, line: line)
         
         return sut
     }
 
     func makeSUT(message: String, file: StaticString = #filePath, line: UInt = #line) -> Snack {
         let sut = Snack(message: message)
-        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeak(sut, file: file, line: line)
         return sut
     }
 }

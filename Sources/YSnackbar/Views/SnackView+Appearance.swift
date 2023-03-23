@@ -12,7 +12,7 @@ import YCoreUI
 
 extension SnackView {
     /// A collection of properties to set the appearance of the `SnackView`.
-    public final class Appearance {
+    public struct Appearance {
         /// A tuple consisting of `textColor` and `typography` for the title label.
         /// Default is `(.label, .systemLabel.bold)`.
         public let title: (textColor: UIColor, typography: Typography)
@@ -25,6 +25,9 @@ extension SnackView {
         public let elevation: Elevation
         /// `SnackView`'s layout properties such as spacing between views, corner radius. Default is `Layout()`.
         public let layout: Layout
+
+        /// Default appearance
+        public static let `default` = Appearance()
 
         /// Initializes a `Appearance`.
         /// - Parameters:

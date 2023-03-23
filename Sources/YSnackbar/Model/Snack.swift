@@ -22,7 +22,7 @@ open class Snack {
     public let icon: UIImage?
     /// The total duration for how long the snack to be displayed. Default is 4 seconds.
     public let duration: TimeInterval
-    /// Appearance for the snack view such as background color, shadow etc. Default is `SnackView.Appearance()`
+    /// Appearance for the snack view such as background color, shadow etc. Default is `.default`.
     public let appearance: SnackView.Appearance
 
     /// Initializes a `Snack`.
@@ -34,7 +34,7 @@ open class Snack {
     ///   - icon: image object to represent icon for the snack view. This is optional and default is nil
     ///   - duration: total duration for how long the snack to be displayed. Default is 4 seconds
     ///   - appearance: appearance for the snack view such as background color, shadow etc.
-    ///     Default is `SnackView.Appearance()`
+    ///     Default is `.default`.
     public init(
         alignment: Alignment = SnackbarManager.defaultAlignment,
         title: String? = nil,
@@ -42,7 +42,7 @@ open class Snack {
         reuseIdentifier: String? = nil,
         icon: UIImage? = nil,
         duration: TimeInterval = 4,
-        appearance: SnackView.Appearance = SnackView.Appearance()
+        appearance: SnackView.Appearance = .default
     ) {
         self.alignment = alignment
         self.title = title

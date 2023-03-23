@@ -216,22 +216,77 @@ final class SnackHostViewTests: XCTestCase {
         XCTAssertEqual(sut.layer.shadowOffset, CGSize(width: 2, height: 2))
         XCTAssertEqual(sut.layer.shadowRadius, newElevation.blur / 2.5)
     }
+
+    func test_changeColorSpace_updatesShadowColor() {
+        // Given
+        let sut = makeSUT()
+        let elevation = sut.snack.appearance.elevation
+        let (parent, child) = makeNestedViewControllers(subview: sut)
+
+        UITraitCollection.allColorSpaces.forEach {
+            // When
+            parent.setOverrideTraitCollection($0, forChild: child)
+            sut.traitCollectionDidChange($0)
+
+            // Then
+            XCTAssertEqual(sut.layer.shadowColor, elevation.color.resolvedColor(with: $0).cgColor)
+        }
+    }
+
+    func test_swipe_dismissesSnack() {
+        // Given
+        let sut = makeSUT()
+        let snack = sut.snack
+        SnackbarManager.add(snack: snack)
+        XCTAssertTrue(SnackbarManager.sharedTop.snacks.contains(snack))
+
+        // When
+        sut.simulateSwipe()
+
+        // Then
+        XCTAssertFalse(SnackbarManager.sharedTop.snacks.contains(snack))
+    }
 }
 
 private extension SnackHostViewTests {
     func makeSUT(
-        appearance: SnackView.Appearance = SnackView.Appearance(),
+        appearance: SnackView.Appearance = .default,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> SnackHostView {
         let snack = Snack(message: "", appearance: appearance)
         let sut = SnackHostView(snackView: snack.getSnackAssociatedView())
-        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeak(sut, file: file, line: line)
         return sut
     }
 
     func makeCoder(for view: UIView) throws -> NSCoder {
         let data = try NSKeyedArchiver.archivedData(withRootObject: view, requiringSecureCoding: false)
         return try NSKeyedUnarchiver(forReadingFrom: data)
+    }
+    
+    /// Create nested view controllers containing the view to be tested so that we can override traits
+    func makeNestedViewControllers(
+        subview: UIView,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (parent: UIViewController, child: UIViewController) {
+        let parent = UIViewController()
+        let child = UIViewController()
+        parent.addChild(child)
+        parent.view.addSubview(child.view)
+
+        // constrain child controller view to parent
+        child.view.constrainEdges()
+
+        child.view.addSubview(subview)
+
+        // constrain subview to child view center
+        subview.constrainCenter()
+
+        trackForMemoryLeak(parent, file: file, line: line)
+        trackForMemoryLeak(child, file: file, line: line)
+
+        return (parent, child)
     }
 }

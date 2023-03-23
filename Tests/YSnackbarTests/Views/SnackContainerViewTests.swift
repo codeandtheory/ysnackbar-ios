@@ -9,6 +9,9 @@
 import XCTest
 @testable import YSnackbar
 
+// OK to have lots of test cases
+// swiftlint:disable file_length
+
 final class SnackContainerViewTests: XCTestCase {
     func test_initWithCoder() throws {
         XCTAssertNil(SnackContainerView(coder: try makeCoder(for: UIView())))
@@ -210,6 +213,30 @@ final class SnackContainerViewTests: XCTestCase {
         XCTAssertEqual(filteredSnackViews, [hostViews[0], hostViews[2], hostViews[1]])
     }
 
+    func test_rearrangeSecondSnackViewFromTop_movesSecondItemToTheBottom() {
+        let sut = makeSUT(alignment: .top)
+        let hostViews = makeHostViews()
+
+        sut.addHostViews(hostViews)
+
+        _ = sut.rearrangeHostView(at: 1) { }
+
+        let filteredSnackViews = sut.hostViews.compactMap { $0 }
+        XCTAssertEqual(filteredSnackViews, [hostViews[0], hostViews[2], hostViews[1]])
+    }
+
+    func test_rearrangeSecondSnackViewFromBottom_movesSecondItemToTheTop() {
+        let sut = makeSUT(alignment: .bottom)
+        let hostViews = makeHostViews()
+
+        sut.addHostViews(hostViews)
+
+        _ = sut.rearrangeHostView(at: 1) { }
+
+        let filteredSnackViews = sut.hostViews.compactMap { $0 }
+        XCTAssertEqual(filteredSnackViews, [hostViews[1], hostViews[2], hostViews[0]])
+    }
+
     func test_rearrangeLastSnackViewFromBottom_doesNotChangeSnackPosition() {
         let sut = makeSUT(alignment: .bottom)
         let hostViews = makeHostViews()
@@ -255,15 +282,20 @@ final class SnackContainerViewTests: XCTestCase {
         let sut = makeSUT(alignment: .bottom)
         let hostView1 = makeHostViews()[0]
         let hostView2 = makeHostViews()[1]
+        let hostView3 = makeHostViews()[2]
 
-        sut.addHostViews([hostView1, hostView2])
+        sut.addHostViews([hostView1, hostView2, hostView3])
+        XCTAssertNotNil(sut.window)
+
+        sut.snackViewToBeRemoved = hostView2
+        sut.removeHostView(at: 1)
         XCTAssertNotNil(sut.window)
 
         sut.snackViewToBeRemoved = hostView1
         sut.removeHostView(at: 0)
         XCTAssertNotNil(sut.window)
 
-        sut.snackViewToBeRemoved = hostView2
+        sut.snackViewToBeRemoved = hostView3
         sut.removeHostView(at: 0)
         XCTAssertNil(sut.window)
     }
@@ -337,8 +369,8 @@ private extension SnackContainerViewTests {
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> SnackContainerViewSpy {
-        let sut = SnackContainerViewSpy(alignment: alignment, appearance: SnackbarManager.Appearance())
-        trackForMemoryLeaks(sut, file: file, line: line)
+        let sut = SnackContainerViewSpy(alignment: alignment, appearance: .default)
+        trackForMemoryLeak(sut, file: file, line: line)
         return sut
     }
 

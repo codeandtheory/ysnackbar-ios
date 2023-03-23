@@ -10,17 +10,20 @@ import UIKit
 
 extension SnackbarManager {
     /// Control animation duration and spacing
-    public final class Appearance {
+    public struct Appearance: Equatable {
         /// Animation duration on adding a snack. Default is `0.4`
-        public let addAnimationDuration: TimeInterval
+        public var addAnimationDuration: TimeInterval
         /// Animation duration on removing a snack. Default is `0.4`
-        public let removeAnimationDuration: TimeInterval
+        public var removeAnimationDuration: TimeInterval
         /// Spacing between snacks. Default is `16.0`
-        public let snackSpacing: CGFloat
+        public var snackSpacing: CGFloat
         /// Distance the content is inset from the superview. Default is `NSDirectionalEdgeInsets(all: 16.0)`
-        public let contentInset: NSDirectionalEdgeInsets
+        public var contentInset: NSDirectionalEdgeInsets
         /// Maximum width of a snack view. Default is `428.0`
-        public let maxSnackWidth: CGFloat
+        public var maxSnackWidth: CGFloat
+
+        /// Default appearance
+        public static let `default` = Appearance()
 
         /// Initializes a snackbar manager's appearance
         /// - Parameters:

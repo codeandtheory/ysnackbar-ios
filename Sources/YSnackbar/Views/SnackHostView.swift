@@ -121,3 +121,11 @@ private extension SnackHostView {
         layer.shadowColor = elevation.color.cgColor
     }
 }
+
+/// Methods for unit testing
+internal extension SnackHostView {
+    /// Simulates a swipe for unit testing
+    func simulateSwipe() {
+        didSwipe(sender: UISwipeGestureRecognizer())
+    }
+}
