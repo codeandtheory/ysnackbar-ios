@@ -106,7 +106,7 @@ private extension SnackHashableTests {
             duration: duration
         )
 
-        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeak(sut, file: file, line: line)
 
         return sut
     }

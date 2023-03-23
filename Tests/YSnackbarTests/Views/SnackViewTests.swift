@@ -78,7 +78,7 @@ final class SnackViewTests: XCTestCase {
             reuseIdentifier: "yml.com.snackbar1",
             icon: UIImage.make(withColor: .red),
             duration: 5,
-            appearance: SnackView.Appearance()
+            appearance: .default
         )
 
         let sut = makeSUT(snack: snack)
@@ -126,7 +126,7 @@ private extension SnackViewTests {
     ) -> SnackView {
         let sut = SnackView(snack: snack)
         sut.frame = CGRect(x: .zero, y: .zero, width: 300, height: 100)
-        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeak(sut, file: file, line: line)
         return sut
     }
 

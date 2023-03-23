@@ -28,7 +28,7 @@ A `Snack` is a model that represents a floating ephemeral alert or message to be
 - `reuseIdentifier`: A string for identifying a snack. This is of type `String?` and the default is nil.
 - `icon`: A small image to be displayed as part of the snack view. This is of type `UIImage?` and the default is nil.
 - `duration`: The total duration for which the snack will be displayed. The default is 4 seconds.
-- `appearance`: Sets the appearance of the `SnackView`. The default is `SnackView.Appearance()`
+- `appearance`: Sets the appearance of the `SnackView`. The default is `.default`.
 
 Two snacks are said to be equal if either the `reuseIdentifier` of both snacks are equal or the `title` and `message` of both snacks are equal. This is made possible by the snack’s conformance to both `Equatable` and `Hashable`.
 
