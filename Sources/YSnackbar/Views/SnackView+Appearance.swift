@@ -19,11 +19,15 @@ extension SnackView {
         /// A tuple consisting of `textColor` and `typography` for the message label.
         /// Default is `(.label, .systemLabel)`.
         public let message: (textColor: UIColor, typography: Typography)
-        /// `SnackView`'s background color. Default is `Appearance.snackBackgroundColor`.
+        /// Background color. Default is `Appearance.snackBackgroundColor`.
         public let backgroundColor: UIColor
-        /// `SnackView`'s elevation. Default is `Appearance.elevation`.
+        /// Border color. Default is `.label`.
+        public let borderColor: UIColor
+        /// Border width. Default is `0`.
+        public let borderWidth: CGFloat
+        /// Elevation (also known as box shadow). Default is `Appearance.elevation`.
         public let elevation: Elevation
-        /// `SnackView`'s layout properties such as spacing between views, corner radius. Default is `Layout()`.
+        /// Layout properties such as spacing between views, corner radius. Default is `Layout()`.
         public let layout: Layout
 
         /// Default appearance
@@ -32,23 +36,28 @@ extension SnackView {
         /// Initializes a `Appearance`.
         /// - Parameters:
         ///   - title: tuple consisting of `textColor` and `typography` for the title label.
-        ///     Default is `(.label, .systemLabel.bold)`
+        ///     Default is `(.label, .systemLabel.bold)`.
         ///   - message: tuple consisting of `textColor` and `typography` for the message label.
-        ///     Default is `(.label, .systemLabel)`
-        ///   - backgroundColor: `SnackView`'s background color. Default is `Appearance.snackBackgroundColor`
-        ///   - elevation: `SnackView`'s elevation. Default is `Appearance.elevation`
-        ///   - layout: `SnackView`'s layout properties such as spacing between views, corner radius.
-        ///     Default is `Layout()`
+        ///     Default is `(.label, .systemLabel)`.
+        ///   - backgroundColor: background color. Default is `Appearance.snackBackgroundColor`.
+        ///   - borderColor: border color
+        ///   - borderWidth: border width
+        ///   - elevation: elevation (box shadow). Default is `Appearance.elevation`.
+        ///   - layout: layout properties such as spacing between views, corner radius. Default is `Layout()`.
         public init(
             title: (textColor: UIColor, typography: Typography) =  (.label, .systemLabel.bold),
             message: (textColor: UIColor, typography: Typography) = (.label, .systemLabel),
             backgroundColor: UIColor = Appearance.snackBackgroundColor,
+            borderColor: UIColor = .label,
+            borderWidth: CGFloat = 0,
             elevation: Elevation = Appearance.elevation,
             layout: Layout = Layout()
         ) {
             self.title = title
             self.message = message
             self.backgroundColor = backgroundColor
+            self.borderColor = borderColor
+            self.borderWidth = borderWidth
             self.elevation = elevation
             self.layout = layout
         }

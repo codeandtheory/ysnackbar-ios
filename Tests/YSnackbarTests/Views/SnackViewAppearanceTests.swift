@@ -23,6 +23,8 @@ final class SnackViewAppearanceTests: XCTestCase {
         XCTAssertEqual(sut.message.typography.fontSize, UIFont.labelFontSize)
         XCTAssertEqual(sut.message.typography.fontWeight, .regular)
 
+        XCTAssertEqual(sut.borderColor, .label)
+        XCTAssertEqual(sut.borderWidth, 0)
         XCTAssertEqual(sut.elevation, makeElevation())
         XCTAssertEqual(sut.layout, SnackView.Appearance.Layout())
         

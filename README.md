@@ -50,13 +50,15 @@ Clients can modify or set the appearance of the `SnackView` while creating a `Sn
     - A tuple consisting of `textColor` and `typography` for the message label.
     - Default is `(.label, .systemLabel)` .
 - `backgroundColor`:
-    - `SnackView`'s background color. The default is `systemBackground`.
-- `shadow`:
-    - `SnackView`'s shadow property is of type `Shadow` and consists of properties such as color, opacity, etc.
-    - The default is `Shadow()`.
+    - Background color. The default is `systemBackground`.
+- `borderColor`:
+    - Border color. The default is `.label`.
+- `borderWidth`:
+    - Border width. The default is `0`.
+- `elevation`:
+    - Elevation (also known as box shadow). Default is `Appearance.elevation`.
 - `layout`:
-    - `SnackView`'s layout property is of type `Layout` which consists of properties such as spacing between views, corner radius, etc.
-    - The default is `Layout()`.
+    - Layout properties such as spacing between views, corner radius. Default is `Layout()`.
 
 **How to get `SnackView` from a `Snack`?**
 

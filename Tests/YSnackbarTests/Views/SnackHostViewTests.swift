@@ -219,8 +219,9 @@ final class SnackHostViewTests: XCTestCase {
 
     func test_changeColorSpace_updatesShadowColor() {
         // Given
-        let sut = makeSUT()
-        let elevation = sut.snack.appearance.elevation
+        let elevation = makeElevation(color: .systemPurple)
+        let appearance = SnackView.Appearance(elevation: elevation)
+        let sut = makeSUT(appearance: appearance)
         let (parent, child) = makeNestedViewControllers(subview: sut)
 
         UITraitCollection.allColorSpaces.forEach {
@@ -230,6 +231,23 @@ final class SnackHostViewTests: XCTestCase {
 
             // Then
             XCTAssertEqual(sut.layer.shadowColor, elevation.color.resolvedColor(with: $0).cgColor)
+        }
+    }
+
+    func test_changeColorSpace_updatesBorderColor() {
+        // Given
+        let appearance = SnackView.Appearance(borderColor: .systemPink, borderWidth: 2)
+        let sut = makeSUT(appearance: appearance)
+        let (parent, child) = makeNestedViewControllers(subview: sut)
+
+        UITraitCollection.allColorSpaces.forEach {
+            // When
+            parent.setOverrideTraitCollection($0, forChild: child)
+            sut.traitCollectionDidChange($0)
+
+            // Then
+            XCTAssertEqual(sut.snackView.layer.borderColor, appearance.borderColor.resolvedColor(with: $0).cgColor)
+            XCTAssertEqual(sut.snackView.layer.borderWidth, 2)
         }
     }
 

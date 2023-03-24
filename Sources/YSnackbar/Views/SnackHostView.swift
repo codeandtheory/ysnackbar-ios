@@ -23,7 +23,7 @@ final class SnackHostView: UIView {
         }
     }
     
-    private let snackView: SnackUpdatable
+    internal let snackView: SnackUpdatable
     private var shadowSize: CGSize = .zero
 
     internal init(snackView: SnackUpdatable) {
@@ -65,6 +65,11 @@ final class SnackHostView: UIView {
 
     internal func updateShadow() {
         snack.appearance.elevation.apply(layer: layer, cornerRadius: snack.appearance.layout.cornerRadius)
+    }
+
+    internal func updateBorder() {
+        snackView.layer.borderWidth = snack.appearance.borderWidth
+        snackView.layer.borderColor = snack.appearance.borderColor.resolvedColor(with: traitCollection).cgColor
     }
     
     override func layoutSubviews() {
@@ -109,6 +114,7 @@ private extension SnackHostView {
 
     func updateView() {
         updateShadow()
+        updateBorder()
         snackView.layer.cornerRadius = snack.appearance.layout.cornerRadius
     }
 
@@ -118,7 +124,8 @@ private extension SnackHostView {
     
     func adjustColors() {
         let elevation = snack.appearance.elevation
-        layer.shadowColor = elevation.color.cgColor
+        layer.shadowColor = elevation.color.resolvedColor(with: traitCollection).cgColor
+        updateBorder()
     }
 }
 
