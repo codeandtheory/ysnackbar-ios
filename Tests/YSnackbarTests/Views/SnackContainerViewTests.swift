@@ -11,6 +11,7 @@ import XCTest
 
 // OK to have lots of test cases
 // swiftlint:disable file_length
+// swiftlint:disable type_body_length
 
 final class SnackContainerViewTests: XCTestCase {
     func test_initWithCoder() throws {
@@ -23,6 +24,11 @@ final class SnackContainerViewTests: XCTestCase {
 
     func test_init_deliversBottomAlignment() {
         XCTAssertEqual(makeSUT(alignment: .bottom).alignment, .bottom)
+    }
+
+    func test_init_deliversRearrangeAnimationDuration() {
+        let sut = SnackContainerView(alignment: .top, appearance: .default)
+        XCTAssertEqual(sut.rearrangeAnimationDuration, 0.4)
     }
 
     func test_addSnackOnTop_isAddedToWindow() {
@@ -103,6 +109,52 @@ final class SnackContainerViewTests: XCTestCase {
         sut.addHostView(hostViews[2]) { }
 
         XCTAssertEqual(sut.hostViews, [hostViews[2], hostViews[1], hostViews[0]])
+    }
+
+    func test_addSnackWithReducedMotion_beginsOnScreenButInvisible() {
+        let sut = makeSUT(alignment: .top, isReduceMotionEnabled: true)
+        let hostView = makeHostViews()[0]
+
+        sut.addHostViewWithoutAnimation(hostView)
+
+        XCTAssertEqual(hostView.alpha, 0)
+        XCTAssertGreaterThanOrEqual(hostView.frame.minY, 0)
+        XCTAssertGreaterThan(hostView.frame.maxY, 0)
+    }
+
+    func test_addSnackWithReducedMotion_beginsOffScreenButNotInvisible() {
+        let sut = makeSUT(alignment: .top, isReduceMotionEnabled: false)
+        let hostView = makeHostViews()[0]
+
+        sut.addHostViewWithoutAnimation(hostView)
+
+        XCTAssertEqual(hostView.alpha, 1)
+        XCTAssertLessThan(hostView.frame.minY, 0)
+        XCTAssertLessThan(hostView.frame.maxY, 0)
+    }
+
+    func test_removeSnackWithReducedMotion_fadesOutSnack() {
+        let sut = makeSUT(alignment: .top, isReduceMotionEnabled: true)
+        let hostView = makeHostViews()[0]
+
+        sut.addHostViews([hostView])
+
+        sut.snackViewToBeRemoved = hostView
+        sut.removeHostView(at: 0)
+
+        XCTAssertEqual(hostView.alpha, 0)
+    }
+
+    func test_removeSnackWithoutReducedMotion_doesNotFadeOutSnack() {
+        let sut = makeSUT(alignment: .top, isReduceMotionEnabled: false)
+        let hostView = makeHostViews()[0]
+
+        sut.addHostViews([hostView])
+
+        sut.snackViewToBeRemoved = hostView
+        sut.removeHostView(at: 0)
+
+        XCTAssertNotEqual(hostView.alpha, 0)
     }
 
     func test_removeSnackAtZerothIndexFromTop_removesSnackFromSnackbar() {
@@ -190,7 +242,19 @@ final class SnackContainerViewTests: XCTestCase {
     }
 
     func test_rearrangeFirstSnackViewFromTop_movesFirstItemToTheBottom() {
-        let sut = makeSUT(alignment: .top)
+        let sut = makeSUT(alignment: .top, isReduceMotionEnabled: false)
+        let hostViews = makeHostViews()
+
+        sut.addHostViews(hostViews)
+
+        _ = sut.rearrangeHostView(at: 0) { }
+
+        let filteredSnackViews = sut.hostViews.compactMap { $0 }
+        XCTAssertEqual(filteredSnackViews, [hostViews[1], hostViews[2], hostViews[0]])
+    }
+
+    func test_rearrangeFirstSnackViewFromTopWithReducedMotion_movesFirstItemToTheBottom() {
+        let sut = makeSUT(alignment: .top, isReduceMotionEnabled: true)
         let hostViews = makeHostViews()
 
         sut.addHostViews(hostViews)
@@ -366,10 +430,13 @@ final class SnackContainerViewTests: XCTestCase {
 private extension SnackContainerViewTests {
     func makeSUT(
         alignment: Alignment,
+        isReduceMotionEnabled: Bool? = nil,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> SnackContainerViewSpy {
-        let sut = SnackContainerViewSpy(alignment: alignment, appearance: .default)
+        let appearance = SnackbarManager.Appearance(addAnimationDuration: 0, removeAnimationDuration: 0)
+        let sut = SnackContainerViewSpy(alignment: alignment, appearance: appearance)
+        sut.reduceMotionOverride = isReduceMotionEnabled
         trackForMemoryLeak(sut, file: file, line: line)
         return sut
     }
@@ -391,6 +458,7 @@ private extension SnackContainerViewTests {
 final class SnackContainerViewSpy: SnackContainerView {
     var snackViewToBeRemoved = UIView()
 
+    override var rearrangeAnimationDuration: CGFloat { 0.0 }
     override var keyWindow: UIWindow? { UIWindow() }
 
     override func removeHostViewWithAnimation(
@@ -399,17 +467,24 @@ final class SnackContainerViewSpy: SnackContainerView {
         completion: @escaping (UIView) -> Void
     ) {
         super.removeHostViewWithAnimation(hostView, at: index, completion: completion)
+        // Wait for the run loop to tick (complete animations)
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.01))
         completion(snackViewToBeRemoved)
     }
 
     override func addHostView(_ hostView: SnackHostView, completion: @escaping () -> Void) {
         super.addHostView(hostView, completion: completion)
+        // Wait for the run loop to tick (complete animations)
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.01))
         completion()
     }
 
     override func rearrangeHostView(at index: Int, completion: @escaping () -> Void) -> SnackHostView {
         completion()
-        return super.rearrangeHostView(at: index, completion: completion)
+        let hostView = super.rearrangeHostView(at: index, completion: completion)
+        // Wait for the run loop to tick (complete animations)
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.01))
+        return hostView
     }
 
     func addHostViews(_ views: [SnackHostView]) {
@@ -418,5 +493,13 @@ final class SnackContainerViewSpy: SnackContainerView {
         layoutIfNeeded()
 
         views.forEach { addHostView($0) { } }
+    }
+
+    func addHostViewWithoutAnimation(_ view: SnackHostView) {
+        frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+        keyWindow?.addSubview(self)
+        layoutIfNeeded()
+
+        addHostViewWithInitialAppearance(view)
     }
 }
