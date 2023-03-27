@@ -1,5 +1,5 @@
 //
-//  SnackViewAppearanceTests.swift
+//  Snack+AppearanceTests.swift
 //  YSnackbar
 //
 //  Created by Karthik K Manoj on 07/09/22.
@@ -10,9 +10,9 @@ import XCTest
 import YMatterType
 @testable import YSnackbar
 
-final class SnackViewAppearanceTests: XCTestCase {
+final class SnackAppearanceTests: XCTestCase {
     func test_init_propertiesDefaultValue() {
-        let sut = SnackView.Appearance()
+        let sut = makeSUT()
         XCTAssertEqual(sut.title.textColor, .label)
         XCTAssertEqual(sut.title.typography.fontFamily.familyName, Typography.systemFamily.familyName)
         XCTAssertEqual(sut.title.typography.fontSize, UIFont.labelFontSize)
@@ -26,7 +26,7 @@ final class SnackViewAppearanceTests: XCTestCase {
         XCTAssertEqual(sut.borderColor, .label)
         XCTAssertEqual(sut.borderWidth, 0)
         XCTAssertEqual(sut.elevation, makeElevation())
-        XCTAssertEqual(sut.layout, SnackView.Appearance.Layout())
+        XCTAssertEqual(sut.layout, Snack.Appearance.Layout())
         
         let sutRgba = sut.backgroundColor.rgbaComponents
         let systemRgba = UIColor.systemBackground.rgbaComponents
@@ -38,15 +38,32 @@ final class SnackViewAppearanceTests: XCTestCase {
         XCTAssertTrue(systemRgba.alpha == sutRgba.alpha || tertiarySystemRgba.alpha == sutRgba.alpha)
     }
     
-    func test_colorBasedOnTraitCollection_deliversTertiarySystemBackgroundColorOnDarkMode() {
+    func test_snackbarBackgroundColor_deliversTertiarySystemBackgroundColorOnDarkMode() {
         let trait = UITraitCollection(userInterfaceStyle: .dark)
         
-        XCTAssertEqual(SnackView.Appearance.colorBasedOnTraitCollection(trait), .tertiarySystemBackground)
+        XCTAssertEqual(
+            Snack.Appearance.snackBackgroundColor.resolvedColor(with: trait),
+            .tertiarySystemBackground.resolvedColor(with: trait)
+        )
     }
     
-    func test_colorBasedOnTraitCollection_deliversSystemBackgroundColorOnLightMode() {
+    func test_snackbarBackgroundColor_deliversSystemBackgroundColorOnLightMode() {
         let trait = UITraitCollection(userInterfaceStyle: .light)
         
-        XCTAssertEqual(SnackView.Appearance.colorBasedOnTraitCollection(trait), .systemBackground)
+        XCTAssertEqual(
+            Snack.Appearance.snackBackgroundColor.resolvedColor(with: trait),
+            .systemBackground.resolvedColor(with: trait)
+        )
+    }
+}
+
+extension SnackAppearanceTests {
+    func makeSUT(
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> Snack.Appearance {
+        let sut = Snack.Appearance()
+        trackForMemoryLeak(sut, file: file, line: line)
+        return sut
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SnackView.Appearance+Layout.swift
+//  Snack+Appearance+Layout.swift
 //  YSnackbar
 //
 //  Created by Karthik K Manoj on 07/09/22.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension SnackView.Appearance {
+extension Snack.Appearance {
     /// A collection of layout properties for the `SnackView`.
     public struct Layout: Equatable {
         /// The custom distance the content is inset from the `SnackView`.

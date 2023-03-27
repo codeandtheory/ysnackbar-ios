@@ -23,7 +23,7 @@ open class Snack {
     /// The total duration for how long the snack to be displayed. Default is 4 seconds.
     public let duration: TimeInterval
     /// Appearance for the snack view such as background color, shadow etc. Default is `.default`.
-    public let appearance: SnackView.Appearance
+    public let appearance: Snack.Appearance
 
     /// Initializes a `Snack`.
     /// - Parameters:
@@ -42,7 +42,7 @@ open class Snack {
         reuseIdentifier: String? = nil,
         icon: UIImage? = nil,
         duration: TimeInterval = 4,
-        appearance: SnackView.Appearance = .default
+        appearance: Snack.Appearance = .default
     ) {
         self.alignment = alignment
         self.title = title

@@ -50,7 +50,7 @@ final class SnackTests: XCTestCase {
         XCTAssertEqual(appearance.message.typography.fontWeight, .regular)
 
         XCTAssertEqual(appearance.elevation, makeElevation())
-        XCTAssertEqual(appearance.layout, SnackView.Appearance.Layout())
+        XCTAssertEqual(appearance.layout, Snack.Appearance.Layout())
         
         let expectedRgba = appearance.backgroundColor.rgbaComponents
         let systemRgba = UIColor.systemBackground.rgbaComponents

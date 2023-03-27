@@ -56,7 +56,7 @@ open class SnackView: UIView {
         return stackView
     }()
 
-    private var appearance: Appearance { snack.appearance }
+    private var appearance: Snack.Appearance { snack.appearance }
 
     /// Initializes a `SnackView`.
     /// - Parameter snack: data model to use
