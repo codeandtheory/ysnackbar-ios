@@ -20,7 +20,7 @@ internal class SnackContainerView: UIView {
             .first { $0.isKeyWindow }
     }
 
-    private var latestHostView: SnackHostView? {
+    internal var latestHostView: SnackHostView? {
         switch alignment {
         case .top:
             return hostViews.last
@@ -33,11 +33,22 @@ internal class SnackContainerView: UIView {
 
     internal var appearance: SnackbarManager.Appearance
 
-    private(set) var hostViews: [SnackHostView] = []
+    internal var hostViews: [SnackHostView] = []
 
     private var dampingRatio: CGFloat { 0.6 }
     private var velocity: CGFloat { 0.4 }
-    private var rearrangeAnimationDuration: CGFloat { 0.4 }
+    internal var rearrangeAnimationDuration: CGFloat { 0.4 }
+
+    /// Override for isReduceMotionEnabled. Default is `nil`.
+    ///
+    /// For unit testing. When non-`nil` it will be returned instead of
+    /// `UIAccessibility.isReduceMotionEnabled`,
+    internal var reduceMotionOverride: Bool?
+
+    /// Accessibility reduce motion is enabled or not.
+    internal var isReduceMotionEnabled: Bool {
+        reduceMotionOverride ?? UIAccessibility.isReduceMotionEnabled
+    }
 
     internal init(alignment: Alignment, appearance: SnackbarManager.Appearance) {
         self.alignment = alignment
@@ -50,7 +61,8 @@ internal class SnackContainerView: UIView {
     internal func addHostView(_ hostView: SnackHostView, completion: @escaping () -> Void) {
         if window == nil { build() }
 
-        addHostViewWithAnimation(hostView, completion: completion)
+        addHostViewWithInitialAppearance(hostView)
+        performAddAnimation(on: hostView, completion: completion)
     }
 
     internal func removeHostView(at index: Int) {
@@ -69,13 +81,28 @@ internal class SnackContainerView: UIView {
         updateConstraintsOnRemoving(hostView: hostView)
         linkHostViewsOnRemoving(hostView: hostView)
 
-        UIView.animate(
-            withDuration: appearance.removeAnimationDuration,
-            delay: .zero,
-            options: .curveEaseIn,
-            animations: { self.layoutIfNeeded() }
-        ) { _ in
-            completion(hostView)
+        if isReduceMotionEnabled {
+            // update the positions before the transition
+            self.layoutIfNeeded()
+            UIView.transition(
+                with: self,
+                duration: appearance.removeAnimationDuration,
+                options: .transitionCrossDissolve,
+                animations: {
+                    hostView.alpha = 0
+                }
+            ) { _ in
+                completion(hostView)
+            }
+        } else {
+            UIView.animate(
+                withDuration: appearance.removeAnimationDuration,
+                animations: {
+                    self.layoutIfNeeded()
+                }
+            ) {  _ in
+                completion(hostView)
+            }
         }
 
         hostViews.remove(at: index)
@@ -91,16 +118,31 @@ internal class SnackContainerView: UIView {
             return hostView
         }
 
-        updateConstraintsOnRearrange(hostView: hostView)
+        updateConstraintsOnRearrange(hostView: hostView, latest: latestHostView)
         linkHostViewsOnRearrange(hostView: hostView)
 
         bringSubviewToFront(hostView)
 
-        UIView.animate(
-            withDuration: rearrangeAnimationDuration,
-            animations: { self.layoutIfNeeded() }
-        ) {  _ in
-            completion()
+        if isReduceMotionEnabled {
+            // update the positions before the transition
+            self.layoutIfNeeded()
+            UIView.transition(
+                with: self,
+                duration: rearrangeAnimationDuration,
+                options: .transitionCrossDissolve,
+                animations: { }
+            ) { _ in
+                completion()
+            }
+        } else {
+            UIView.animate(
+                withDuration: rearrangeAnimationDuration,
+                animations: {
+                    self.layoutIfNeeded()
+                }
+            ) {  _ in
+                completion()
+            }
         }
 
         hostViews.remove(at: hostIndex)
@@ -171,76 +213,31 @@ private extension SnackContainerView {
         }
     }
 
-    func setupInitialConstraints(for hostView: SnackHostView) {
-        guard let superview = superview else { return }
-
-        let constraint: NSLayoutConstraint?
-
-        switch alignment {
-        case .top:
-            let offset = max(hostView.snack.appearance.elevation.extent.bottom, 0)
-            constraint = hostView.constrain(.bottomAnchor, to: superview.topAnchor, constant: -offset)
-        case .bottom:
-            let offset = max(hostView.snack.appearance.elevation.extent.top, 0)
-            constraint = hostView.constrain(.topAnchor, to: superview.bottomAnchor, constant: offset)
+    func performAddAnimation(on hostView: SnackHostView, completion: @escaping () -> Void) {
+        if isReduceMotionEnabled {
+            UIView.animate(
+                withDuration: appearance.addAnimationDuration,
+                delay: .zero,
+                options: .curveEaseIn,
+                animations: {
+                    hostView.alpha = 1
+                }
+            ) { _ in
+                completion()
+            }
+        } else {
+            UIView.animate(
+                withDuration: appearance.addAnimationDuration,
+                delay: .zero,
+                usingSpringWithDamping: dampingRatio,
+                initialSpringVelocity: velocity,
+                animations: {
+                    self.layoutIfNeeded()
+                }
+            ) { _ in
+                completion()
+            }
         }
-
-        hostView.constrain(.leadingAnchor, to: leadingAnchor)
-        hostView.constrain(.trailingAnchor, to: trailingAnchor)
-
-        layoutIfNeeded()
-
-        constraint?.isActive = false
-    }
-
-    func addHostViewWithAnimation(_ hostView: SnackHostView, completion: @escaping () -> Void) {
-        addSubview(hostView)
-        setupInitialConstraints(for: hostView)
-
-        updateConstraintsOnAdding(hostView: hostView)
-        linkHostViewsOnAdding(hostView: hostView)
-
-        UIView.animate(
-            withDuration: appearance.addAnimationDuration,
-            delay: .zero,
-            usingSpringWithDamping: dampingRatio,
-            initialSpringVelocity: velocity,
-            animations: { self.layoutIfNeeded() }
-        ) { _ in
-            completion()
-        }
-
-        switch alignment {
-        case .top:
-            hostViews.append(hostView)
-        case .bottom:
-            hostViews.insert(hostView, at: .zero)
-        }
-    }
-
-    func updateConstraintsOnAdding(hostView: SnackHostView) {
-        let latestHostView = latestHostView
-
-        switch alignment {
-        case .top:
-            hostView.setTopConstraint(hostView.constrain(
-                .topAnchor,
-                to: latestHostView?.bottomAnchor ?? topAnchor,
-                constant: latestHostView == nil ? .zero : appearance.snackSpacing
-            ))
-        case .bottom:
-            hostView.setBottomConstraint(hostView.constrain(
-                .bottomAnchor,
-                to: latestHostView?.topAnchor ?? bottomAnchor,
-                constant: latestHostView == nil ? .zero : -appearance.snackSpacing
-            ))
-        }
-    }
-
-    func linkHostViewsOnAdding(hostView: SnackHostView) {
-        let latestHostView = latestHostView
-        hostView.setPreviousHostView(latestHostView)
-        latestHostView?.setNextHostView(hostView)
     }
 
     func updateConstraintsOnRemoving(hostView: SnackHostView) {
@@ -249,19 +246,20 @@ private extension SnackContainerView {
         let nextHostView = hostView.nextHostView
         let previousHostView = hostView.previousHostView
 
-        hostView.deactivateBottomConstraint()
-        hostView.deactivateTopConstraint()
-
         switch alignment {
         case .top:
-            let offset = max(hostView.snack.appearance.elevation.extent.bottom, 0)
-            hostView.setTopConstraint(
-                hostView.constrain(
-                    .bottomAnchor,
-                    to: superview.topAnchor,
-                    constant: -offset
+            hostView.deactivateBottomConstraint()
+            if !isReduceMotionEnabled {
+                hostView.deactivateTopConstraint()
+                let offset = max(hostView.snack.appearance.elevation.extent.bottom, 0)
+                hostView.setTopConstraint(
+                    hostView.constrain(
+                        .bottomAnchor,
+                        to: superview.topAnchor,
+                        constant: -offset
+                    )
                 )
-            )
+            }
 
             nextHostView?.deactivateTopConstraint()
 
@@ -271,14 +269,18 @@ private extension SnackContainerView {
                 constant: previousHostView == nil ? .zero : appearance.snackSpacing
             ))
         case .bottom:
-            let offset = max(hostView.snack.appearance.elevation.extent.top, 0)
-            hostView.setBottomConstraint(
-                hostView.constrain(
-                    .topAnchor,
-                    to: superview.bottomAnchor,
-                    constant: offset
+            hostView.deactivateTopConstraint()
+            if !isReduceMotionEnabled {
+                hostView.deactivateBottomConstraint()
+                let offset = max(hostView.snack.appearance.elevation.extent.top, 0)
+                hostView.setBottomConstraint(
+                    hostView.constrain(
+                        .topAnchor,
+                        to: superview.bottomAnchor,
+                        constant: offset
+                    )
                 )
-            )
+            }
 
             nextHostView?.deactivateBottomConstraint()
 
@@ -298,7 +300,7 @@ private extension SnackContainerView {
         nextHostView?.setPreviousHostView(previousHostView)
     }
 
-    func updateConstraintsOnRearrange(hostView: SnackHostView) {
+    func updateConstraintsOnRearrange(hostView: SnackHostView, latest latestHostView: SnackHostView) {
         let nextHostView = hostView.nextHostView
 
         switch alignment {
@@ -314,7 +316,7 @@ private extension SnackContainerView {
 
             hostView.setTopConstraint(hostView.constrain(
                 .topAnchor,
-                to: latestHostView?.bottomAnchor ?? topAnchor,
+                to: latestHostView.bottomAnchor,
                 constant: appearance.snackSpacing
             ))
         case .bottom:
@@ -329,7 +331,7 @@ private extension SnackContainerView {
 
             hostView.setBottomConstraint(hostView.constrain(
                 .bottomAnchor,
-                to: latestHostView?.topAnchor ?? bottomAnchor,
+                to: latestHostView.topAnchor,
                 constant: -appearance.snackSpacing
             ))
         }
