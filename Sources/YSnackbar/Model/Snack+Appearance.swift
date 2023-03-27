@@ -1,5 +1,5 @@
 //
-//  SnackView+Appearance.swift
+//  Snack+Appearance.swift
 //  YSnackbar
 //
 //  Created by Karthik K Manoj on 07/09/22.
@@ -10,9 +10,9 @@ import UIKit
 import YMatterType
 import YCoreUI
 
-extension SnackView {
+extension Snack {
     /// A collection of properties to set the appearance of the `SnackView`.
-    public struct Appearance {
+    open class Appearance {
         /// A tuple consisting of `textColor` and `typography` for the title label.
         /// Default is `(.label, .systemLabel.bold)`.
         public let title: (textColor: UIColor, typography: Typography)
@@ -64,12 +64,13 @@ extension SnackView {
     }
 }
 
-extension SnackView.Appearance {
-    /// Creates snack view's background color dynamically
-    public static let snackBackgroundColor = UIColor(dynamicProvider: colorBasedOnTraitCollection)
-    
-    internal static func colorBasedOnTraitCollection(_ traitCollection: UITraitCollection) -> UIColor {
-        traitCollection.userInterfaceStyle == .dark ? .tertiarySystemBackground : .systemBackground
+extension Snack.Appearance {
+    /// Snack view default background color
+    public static let snackBackgroundColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+        switch traitCollection.userInterfaceStyle {
+        case .dark: return .tertiarySystemBackground
+        default:    return .systemBackground
+        }
     }
     
     /// Creates a default elevation.

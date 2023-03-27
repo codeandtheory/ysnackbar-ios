@@ -90,7 +90,7 @@ final class SnackViewTests: XCTestCase {
         XCTAssertEqual(sut.snack.duration, snack.duration)
         XCTAssertEqual(sut.snack.appearance, snack.appearance)
 
-        let newAppearance = SnackView.Appearance(
+        let newAppearance = Snack.Appearance(
             title: (textColor: .red, typography: .systemLabel),
             message: (textColor: .red, typography: .systemLabel),
             backgroundColor: .blue,
@@ -141,7 +141,7 @@ private extension SnackViewTests {
         reuseIdentifier: String?,
         icon: UIImage?,
         duration: TimeInterval,
-        appearance: SnackView.Appearance
+        appearance: Snack.Appearance
     ) -> Snack {
         Snack(
             title: title,
@@ -153,8 +153,8 @@ private extension SnackViewTests {
         )
     }
 
-    func makeFixedLayout() -> SnackView.Appearance.Layout {
-        SnackView.Appearance.Layout(
+    func makeFixedLayout() -> Snack.Appearance.Layout {
+        Snack.Appearance.Layout(
             contentInset: NSDirectionalEdgeInsets(all: 8.0),
             labelSpacing: 16.0,
             iconToLabelSpacing: 16.0,
@@ -165,8 +165,8 @@ private extension SnackViewTests {
 }
 
 // Test Helper
-extension SnackView.Appearance: Equatable {
-    public static func == (lhs: SnackView.Appearance, rhs: SnackView.Appearance) -> Bool {
+extension Snack.Appearance: Equatable {
+    public static func == (lhs: Snack.Appearance, rhs: Snack.Appearance) -> Bool {
         (lhs.title.textColor == rhs.title.textColor) &&
         (lhs.title.typography.fontFamily.familyName == rhs.title.typography.fontFamily.familyName) &&
         (lhs.title.typography.fontSize == rhs.title.typography.fontSize) &&

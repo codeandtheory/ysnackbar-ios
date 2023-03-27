@@ -144,7 +144,7 @@ final class SnackHostViewTests: XCTestCase {
 
     func test_updateShadow_doesNotSetShadowPathWhenUseShadowPathIsFalse() {
         let elevation = makeElevation(useShadowPath: false)
-        let appearance = SnackView.Appearance(elevation: elevation)
+        let appearance = Snack.Appearance(elevation: elevation)
         let sut = makeSUT(appearance: appearance)
         sut.bounds = CGRect(origin: .zero, size: CGSize(width: 1, height: 1))
 
@@ -155,7 +155,7 @@ final class SnackHostViewTests: XCTestCase {
 
     func test_updateShadow_setsShadowPathWhenUseShadowPathIsTrue() {
         let elevation = makeElevation(useShadowPath: true)
-        let appearance = SnackView.Appearance(elevation: elevation)
+        let appearance = Snack.Appearance(elevation: elevation)
         let sut = makeSUT(appearance: appearance)
         sut.bounds = CGRect(origin: .zero, size: CGSize(width: 1, height: 1))
 
@@ -171,8 +171,8 @@ final class SnackHostViewTests: XCTestCase {
 
         let shadowPath = try XCTUnwrap(sut.layer.shadowPath)
 
-        let layout = SnackView.Appearance.Layout(cornerRadius: 16)
-        let appearance = SnackView.Appearance(layout: layout)
+        let layout = Snack.Appearance.Layout(cornerRadius: 16)
+        let appearance = Snack.Appearance(layout: layout)
         let newSnack = Snack(message: "", appearance: appearance)
 
         sut.update(newSnack)
@@ -202,10 +202,10 @@ final class SnackHostViewTests: XCTestCase {
         XCTAssertEqual(sut.layer.shadowOffset, CGSize(width: 0, height: 2.33))
         XCTAssertEqual(sut.layer.shadowRadius, elevation.blur / 2.5)
         
-        let layout = SnackView.Appearance.Layout(cornerRadius: 16)
+        let layout = Snack.Appearance.Layout(cornerRadius: 16)
         let newElevation = makeElevation(xOffset: 2, yOffset: 2, blur: 36, spread: 0, color: .red, opacity: 1.0)
         
-        let appearance = SnackView.Appearance(elevation: newElevation, layout: layout)
+        let appearance = Snack.Appearance(elevation: newElevation, layout: layout)
         let newSnack = Snack(message: "", appearance: appearance)
         
         sut.update(newSnack)
@@ -220,7 +220,7 @@ final class SnackHostViewTests: XCTestCase {
     func test_changeColorSpace_updatesShadowColor() {
         // Given
         let elevation = makeElevation(color: .systemPurple)
-        let appearance = SnackView.Appearance(elevation: elevation)
+        let appearance = Snack.Appearance(elevation: elevation)
         let sut = makeSUT(appearance: appearance)
         let (parent, child) = makeNestedViewControllers(subview: sut)
 
@@ -236,7 +236,7 @@ final class SnackHostViewTests: XCTestCase {
 
     func test_changeColorSpace_updatesBorderColor() {
         // Given
-        let appearance = SnackView.Appearance(borderColor: .systemPink, borderWidth: 2)
+        let appearance = Snack.Appearance(borderColor: .systemPink, borderWidth: 2)
         let sut = makeSUT(appearance: appearance)
         let (parent, child) = makeNestedViewControllers(subview: sut)
 
@@ -268,7 +268,7 @@ final class SnackHostViewTests: XCTestCase {
 
 private extension SnackHostViewTests {
     func makeSUT(
-        appearance: SnackView.Appearance = .default,
+        appearance: Snack.Appearance = .default,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> SnackHostView {
