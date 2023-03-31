@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YCoreUI
 
 internal class SnackContainerView: UIView {
     internal let alignment: Alignment
@@ -34,10 +35,6 @@ internal class SnackContainerView: UIView {
     internal var appearance: SnackbarManager.Appearance
 
     internal var hostViews: [SnackHostView] = []
-
-    private var dampingRatio: CGFloat { 0.6 }
-    private var velocity: CGFloat { 0.4 }
-    internal var rearrangeAnimationDuration: CGFloat { 0.4 }
 
     /// Override for isReduceMotionEnabled. Default is `nil`.
     ///
@@ -86,7 +83,7 @@ internal class SnackContainerView: UIView {
             self.layoutIfNeeded()
             UIView.transition(
                 with: self,
-                duration: appearance.removeAnimationDuration,
+                duration: appearance.removeAnimation.duration,
                 options: .transitionCrossDissolve,
                 animations: {
                     hostView.alpha = 0
@@ -96,7 +93,7 @@ internal class SnackContainerView: UIView {
             }
         } else {
             UIView.animate(
-                withDuration: appearance.removeAnimationDuration,
+                with: appearance.removeAnimation,
                 animations: {
                     self.layoutIfNeeded()
                 }
@@ -128,7 +125,7 @@ internal class SnackContainerView: UIView {
             self.layoutIfNeeded()
             UIView.transition(
                 with: self,
-                duration: rearrangeAnimationDuration,
+                duration: appearance.rearrangeAnimation.duration,
                 options: .transitionCrossDissolve,
                 animations: { }
             ) { _ in
@@ -136,7 +133,7 @@ internal class SnackContainerView: UIView {
             }
         } else {
             UIView.animate(
-                withDuration: rearrangeAnimationDuration,
+                with: appearance.rearrangeAnimation,
                 animations: {
                     self.layoutIfNeeded()
                 }
@@ -215,10 +212,10 @@ private extension SnackContainerView {
 
     func performAddAnimation(on hostView: SnackHostView, completion: @escaping () -> Void) {
         if isReduceMotionEnabled {
-            UIView.animate(
-                withDuration: appearance.addAnimationDuration,
-                delay: .zero,
-                options: .curveEaseIn,
+            UIView.transition(
+                with: self,
+                duration: appearance.addAnimation.duration,
+                options: .transitionCrossDissolve,
                 animations: {
                     hostView.alpha = 1
                 }
@@ -227,10 +224,7 @@ private extension SnackContainerView {
             }
         } else {
             UIView.animate(
-                withDuration: appearance.addAnimationDuration,
-                delay: .zero,
-                usingSpringWithDamping: dampingRatio,
-                initialSpringVelocity: velocity,
+                with: appearance.addAnimation,
                 animations: {
                     self.layoutIfNeeded()
                 }

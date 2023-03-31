@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import YCoreUI
 @testable import YSnackbar
 
 final class SnackbarManagerTopTests: XCTestCase {
@@ -255,8 +256,9 @@ final class SnackbarManagerTopTests: XCTestCase {
 
         sut.add(snack: Snack(message: ""))
 
-        XCTAssertEqual(sut.appearance.addAnimationDuration, 0.4)
-        XCTAssertEqual(sut.appearance.removeAnimationDuration, 0.4)
+        XCTAssertEqual(sut.appearance.addAnimation, .defaultAdd)
+        XCTAssertEqual(sut.appearance.rearrangeAnimation, .defaultRearrange)
+        XCTAssertEqual(sut.appearance.removeAnimation, .defaultRemove)
         XCTAssertEqual(sut.appearance.contentInset, NSDirectionalEdgeInsets(all: 16.0))
         XCTAssertEqual(sut.appearance.snackSpacing, 16.0)
         XCTAssertEqual(sut.appearance.maxSnackWidth, 428.0)
@@ -266,15 +268,15 @@ final class SnackbarManagerTopTests: XCTestCase {
 
     func test_newAppearanceOnAddingSnackAtTheTop() {
         let sut = makeSUT()
+        let otherAnimation = Animation(duration: 0.7, curve: .regular(options: .curveEaseIn))
         let appearance = SnackbarManager.Appearance(
-            addAnimationDuration: 0.7,
-            removeAnimationDuration: 0.7,
+            addAnimation: otherAnimation,
             snackSpacing: 24.0,
             contentInset: NSDirectionalEdgeInsets(all: 24.0)
         )
 
-        sut.appearance.addAnimationDuration = 0.7
-        sut.appearance.removeAnimationDuration = 0.7
+        sut.appearance.addAnimation.duration = 0.7
+        sut.appearance.addAnimation.curve = .regular(options: .curveEaseIn)
         sut.appearance.snackSpacing = 24.0
         sut.appearance.contentInset = NSDirectionalEdgeInsets(all: 24.0)
 
