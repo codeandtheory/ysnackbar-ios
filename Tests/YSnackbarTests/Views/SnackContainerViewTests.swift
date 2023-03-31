@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import YCoreUI
 @testable import YSnackbar
 
 // OK to have lots of test cases
@@ -24,11 +25,6 @@ final class SnackContainerViewTests: XCTestCase {
 
     func test_init_deliversBottomAlignment() {
         XCTAssertEqual(makeSUT(alignment: .bottom).alignment, .bottom)
-    }
-
-    func test_init_deliversRearrangeAnimationDuration() {
-        let sut = SnackContainerView(alignment: .top, appearance: .default)
-        XCTAssertEqual(sut.rearrangeAnimationDuration, 0.4)
     }
 
     func test_addSnackOnTop_isAddedToWindow() {
@@ -434,7 +430,8 @@ private extension SnackContainerViewTests {
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> SnackContainerViewSpy {
-        let appearance = SnackbarManager.Appearance(addAnimationDuration: 0, removeAnimationDuration: 0)
+        let none = Animation(duration: 0)
+        let appearance = SnackbarManager.Appearance(addAnimation: none, rearrangeAnimation: none, removeAnimation: none)
         let sut = SnackContainerViewSpy(alignment: alignment, appearance: appearance)
         sut.reduceMotionOverride = isReduceMotionEnabled
         trackForMemoryLeak(sut, file: file, line: line)
@@ -458,7 +455,6 @@ private extension SnackContainerViewTests {
 final class SnackContainerViewSpy: SnackContainerView {
     var snackViewToBeRemoved = UIView()
 
-    override var rearrangeAnimationDuration: CGFloat { 0.0 }
     override var keyWindow: UIWindow? { UIWindow() }
 
     override func removeHostViewWithAnimation(
