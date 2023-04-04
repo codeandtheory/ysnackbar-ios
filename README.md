@@ -98,12 +98,15 @@ All snacks are managed by the `SnackbarManager`.
     
 Clients can control or modify the animation duration, spacing, etc of the `SnackbarManager` by setting the `appearance` property which is of type `SnackbarManager.Appearance`. This will allow the client to modify the following properties:
 
-- `addAnimationDuration`:
-    - Animation duration on adding a snack.
-    - Default is **0.4**
-- `removeAnimationDuration`:
-    - Animation duration on removing a snack.
-    - The default is **0.4**
+- `addAnimation`:
+    - The animation to use when adding a snack.
+    - The default is a spring animation with duration of 0.4
+- `rearrangeAnimation`:
+    - The animation to use when rearranging two or more snacks.
+    - The default is an ease in, ease out animation with duration of 0.3
+- `removeAnimation`:
+    - The animation to use when removing a snack.
+    - The default is an ease out animation with duration of 0.3
 - `snackSpacing`:
     - Spacing between the snacks
     - The default is **16.0**
