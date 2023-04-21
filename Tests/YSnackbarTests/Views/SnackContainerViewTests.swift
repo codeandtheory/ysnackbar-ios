@@ -11,8 +11,7 @@ import YCoreUI
 @testable import YSnackbar
 
 // OK to have lots of test cases
-// swiftlint:disable file_length
-// swiftlint:disable type_body_length
+// swiftlint:disable file_length type_body_length
 
 final class SnackContainerViewTests: XCTestCase {
     func test_initWithCoder() throws {
@@ -499,3 +498,4 @@ final class SnackContainerViewSpy: SnackContainerView {
         addHostViewWithInitialAppearance(view)
     }
 }
+// swiftlint:enable file_length type_body_length
