@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YCoreUI
 
 extension Snack.Appearance {
     /// A collection of layout properties for the `SnackView`.
