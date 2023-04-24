@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>YSnackbar  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="YSnackbar  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          YSnackbar Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">YSnackbar Reference</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      YSnackbar  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Guides.html">Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="readme.html">README</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/Snack.html">Snack</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/Snack/Appearance.html">– Appearance</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SnackView.html">SnackView</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SnackbarManager.html">SnackbarManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SnackbarManager/Appearance.html">– Appearance</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/Alignment.html">Alignment</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Animation.html">Animation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/SnackUpdatable.html">SnackUpdatable</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <p><img src="https://user-images.githubusercontent.com/1037520/221581980-3961ac0e-2804-4a91-a129-918788dd3353.jpeg" alt="Y—Snackbar">
+<a href="https://swiftpackageindex.com/yml-org/ysnackbar-ios"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fyml-org%2Fysnackbar-ios%2Fbadge%3Ftype%3Dswift-versions" alt=""></a> <a href="https://swiftpackageindex.com/yml-org/ysnackbar-ios"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fyml-org%2Fysnackbar-ios%2Fbadge%3Ftype%3Dplatforms" alt=""></a><br>
+<em>An easy-to-use UI component to display brief, transient messages to the user.</em></p>
+
+<p>This framework allows you to add transient in-app messaging to your application. Multiple messages will stack using fluid animations. Messages can be fully themed and set to either expire after a specified time interval or to remain on-screen until dismissed.</p>
+
+<p><img src="https://user-images.githubusercontent.com/1037520/221582361-e040414c-973b-4b14-9de8-645a11757471.gif" alt="Snackbar demo animation"></p>
+<h2 id='licensing' class='heading'>Licensing</h2>
+
+<p>Y—Snackbar is licensed under the <a href="LICENSE">Apache 2.0 license</a>.</p>
+<h2 id='documentation' class='heading'>Documentation</h2>
+
+<p>Documentation is automatically generated from source code comments and rendered as a static website hosted via GitHub Pages at: <a href="https://yml-org.github.io/ysnackbar-ios/">https://yml-org.github.io/ysnackbar-ios/</a></p>
+<h2 id='usage' class='heading'>Usage</h2>
+<h3 id='snack' class='heading'>Snack</h3>
+
+<p>A <code><a href="Classes/Snack.html">Snack</a></code> is a model that represents a floating ephemeral alert or message to be presented to the user. It consists of the following:</p>
+
+<ul>
+<li><code>alignment</code>: Alignment for the snack view. Default is <code><a href="Classes/SnackbarManager.html#/s:9YSnackbar15SnackbarManagerC16defaultAlignmentAA0E0OvpZ">SnackbarManager.defaultAlignment</a></code>.</li>
+<li><code>title</code>: Title for the snack view. This is an optional string and the default is nil.</li>
+<li><code>message</code>: Message to be displayed by <code><a href="Classes/SnackView.html">SnackView</a></code>. This is of type <code>String</code>.</li>
+<li><code>reuseIdentifier</code>: A string for identifying a snack. This is of type <code>String?</code> and the default is nil.</li>
+<li><code>icon</code>: A small image to be displayed as part of the snack view. This is of type <code>UIImage?</code> and the default is nil.</li>
+<li><code>duration</code>: The total duration for which the snack will be displayed. The default is 4 seconds.</li>
+<li><code>appearance</code>: Sets the appearance of the <code><a href="Classes/SnackView.html">SnackView</a></code>. The default is <code>.default</code>.</li>
+</ul>
+
+<p>Two snacks are said to be equal if either the <code>reuseIdentifier</code> of both snacks are equal or the <code>title</code> and <code>message</code> of both snacks are equal. This is made possible by the snack’s conformance to both <code>Equatable</code> and <code>Hashable</code>.</p>
+
+<p>💡 If the snack <code>duration</code> is <code>.nan</code> or <code>.zero</code> then the snack lives forever (until you swipe to dismiss it)</p>
+<h3 id='snackview' class='heading'>SnackView</h3>
+
+<p>A <code><a href="Classes/SnackView.html">SnackView</a></code> is a view that will be presented to the user through the <code><a href="Classes/SnackbarManager.html">SnackbarManager</a></code>. The content of the view is populated using a <code><a href="Classes/Snack.html">Snack</a></code> model object. It has one initializer:</p>
+
+<ul>
+<li><code>init(snack: Snack)</code>
+
+<ul>
+<li>Initializes a <code><a href="Classes/SnackView.html">SnackView</a></code> using the <code>snack</code> data model.</li>
+</ul></li>
+</ul>
+
+<p>Clients can modify or set the appearance of the <code><a href="Classes/SnackView.html">SnackView</a></code> while creating a <code><a href="Classes/Snack.html">Snack</a></code> by setting the <code>appearance</code>. This will allow the client to modify the following properties:</p>
+
+<ul>
+<li><code>title</code>:
+
+<ul>
+<li>A tuple consisting of <code>textColor</code> and <code>typography</code> for the title label.</li>
+<li>Default is <code>(.label, .systemLabel.bold)</code> .</li>
+</ul></li>
+<li><code>message</code>:
+
+<ul>
+<li>A tuple consisting of <code>textColor</code> and <code>typography</code> for the message label.</li>
+<li>Default is <code>(.label, .systemLabel)</code> .</li>
+</ul></li>
+<li><code>backgroundColor</code>:
+
+<ul>
+<li>Background color. The default is <code>systemBackground</code>.</li>
+</ul></li>
+<li><code>borderColor</code>:
+
+<ul>
+<li>Border color. The default is <code>.label</code>.</li>
+</ul></li>
+<li><code>borderWidth</code>:
+
+<ul>
+<li>Border width. The default is <code>0</code>.</li>
+</ul></li>
+<li><code>elevation</code>:
+
+<ul>
+<li>Elevation (also known as box shadow). Default is <code>Appearance.elevation</code>.</li>
+</ul></li>
+<li><code>layout</code>:
+
+<ul>
+<li>Layout properties such as spacing between views, corner radius. Default is <code>Layout()</code>.</li>
+</ul></li>
+</ul>
+
+<p><strong>How to get <code><a href="Classes/SnackView.html">SnackView</a></code> from a <code><a href="Classes/Snack.html">Snack</a></code>?</strong></p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getSnackAssociatedView</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SnackUpdatable</span>
+</code></pre>
+<h3 id='snackupdatable' class='heading'>SnackUpdatable</h3>
+
+<ul>
+<li>Any object that can be updated with a new <code><a href="Classes/Snack.html">Snack</a></code> model object.</li>
+<li><code><a href="Classes/SnackView.html">SnackView</a></code> uses this to update an existing view with new information.</li>
+</ul>
+<h3 id='snackbarmanager' class='heading'>SnackbarManager</h3>
+
+<p>All snacks are managed by the <code><a href="Classes/SnackbarManager.html">SnackbarManager</a></code>.</p>
+<h4 id='state' class='heading'>State</h4>
+
+<ul>
+<li><code>defaultAlignment</code>
+
+<ul>
+<li>It is a global mutable shared state.</li>
+<li>Describes the default alignment of the snack view.</li>
+<li>Default is <code>.top</code></li>
+</ul></li>
+</ul>
+<h4 id='operations' class='heading'>Operations</h4>
+
+<ul>
+<li><p><code>class func add(snack: Snack)</code></p>
+
+<ul>
+<li>Creates a snack view using the snack passed as an argument to display a snack.</li>
+<li>Depending on the alignment, duplicate snacks will be updated and pushed to the bottom or top.</li>
+</ul></li>
+<li><p><code>class func remove(snack: Snack)</code></p>
+
+<ul>
+<li>Removes a snack view using the snack passed as an argument. The <code>SnackContainerView</code> will be dismissed after the last snack is removed.</li>
+<li>There are 3 ways by which you can remove a snack. They are as follows:<br>
+
+<ul>
+<li>By calling <code>class func remove(snack: Snack)</code> operation.</li>
+<li>When the snack has completed its <code>duration</code></li>
+<li>Swiping it up or down to dismiss.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>Clients can control or modify the animation duration, spacing, etc of the <code><a href="Classes/SnackbarManager.html">SnackbarManager</a></code> by setting the <code>appearance</code> property which is of type <code><a href="Classes/SnackbarManager/Appearance.html">SnackbarManager.Appearance</a></code>. This will allow the client to modify the following properties:</p>
+
+<ul>
+<li><code>addAnimation</code>:
+
+<ul>
+<li>The animation to use when adding a snack.</li>
+<li>The default is a spring animation with duration of 0.4</li>
+</ul></li>
+<li><code>rearrangeAnimation</code>:
+
+<ul>
+<li>The animation to use when rearranging two or more snacks.</li>
+<li>The default is an ease in, ease out animation with duration of 0.3</li>
+</ul></li>
+<li><code>removeAnimation</code>:
+
+<ul>
+<li>The animation to use when removing a snack.</li>
+<li>The default is an ease out animation with duration of 0.3</li>
+</ul></li>
+<li><code>snackSpacing</code>:
+
+<ul>
+<li>Spacing between the snacks</li>
+<li>The default is <strong>16.0</strong></li>
+</ul></li>
+<li><code>contentInset</code>:
+
+<ul>
+<li>The distance the content is inset from the superview.</li>
+<li>The default is <strong>16.0</strong></li>
+</ul></li>
+<li><code>maxSnackWidth</code>:
+
+<ul>
+<li>Maximum width of a snack view.</li>
+<li>Helps to keep a fixed width for a snack view on an iPad screen.</li>
+<li>The default is <strong>428.0</strong></li>
+</ul></li>
+</ul>
+<h4 id='default-features' class='heading'>Default Features</h4>
+
+<p>Every snack added has the following default features:  </p>
+
+<ul>
+<li>corner radius based on appearance</li>
+<li>shadow based on appearance</li>
+<li>swipe enabled to dismiss snack view</li>
+</ul>
+<h3 id='usage' class='heading'>Usage</h3>
+
+<ol>
+<li><p><strong>Importing the framework</strong></p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">YSnackbar</span>
+</code></pre></li>
+<li><p><strong>Create a snack</strong></p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">makeSnack</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Snack</span> <span class="p">{</span>
+    <span class="kt">Snack</span><span class="p">(</span>
+        <span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">bottom</span><span class="p">,</span>
+        <span class="nv">title</span><span class="p">:</span> <span class="s">"Network Reachable"</span><span class="p">,</span>
+        <span class="nv">message</span><span class="p">:</span> <span class="s">"You are currently online."</span><span class="p">,</span>
+        <span class="nv">reuseIdentifier</span><span class="p">:</span> <span class="s">"yml.co"</span><span class="p">,</span>
+        <span class="nv">icon</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"wifi"</span><span class="p">),</span>
+        <span class="nv">duration</span><span class="p">:</span> <span class="mf">8.0</span>
+      <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></li>
+<li><p><strong>Add a snack</strong></p>
+<pre class="highlight swift"><code><span class="c1">// Creates a snack using `SnackbarManager.defaultAlignment = .top` </span>
+<span class="k">let</span> <span class="nv">snack</span> <span class="o">=</span> <span class="kt">Snack</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="s">"No network"</span><span class="p">)</span>
+
+<span class="c1">// Adds to the top of the screen</span>
+<span class="kt">SnackbarManager</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">snack</span><span class="p">:</span> <span class="n">snack</span><span class="p">)</span> 
+</code></pre>
+<pre class="highlight swift"><code><span class="c1">// Creates a snack with bottom alignment</span>
+<span class="k">let</span> <span class="nv">snack</span> <span class="o">=</span> <span class="kt">Snack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="s">"Copied to clipboard"</span><span class="p">)</span>
+
+<span class="c1">// Adds to the bottom of the screen</span>
+<span class="kt">SnackbarManager</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">snack</span><span class="p">:</span> <span class="n">snack</span><span class="p">)</span> 
+</code></pre>
+<pre class="highlight swift"><code><span class="c1">// Set `SnackbarManager.defaultAlignment` to bottom</span>
+<span class="kt">SnackbarManager</span><span class="o">.</span><span class="n">defaultAlignment</span> <span class="o">=</span> <span class="o">.</span><span class="n">bottom</span>
+
+<span class="c1">// Creates a snack using defaultAlignment.</span>
+<span class="k">let</span> <span class="nv">snack</span> <span class="o">=</span> <span class="kt">Snack</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="s">"Copied to clipboard"</span><span class="p">)</span>
+
+<span class="c1">// Adds to the bottom of the screen</span>
+<span class="kt">SnackbarManager</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">snack</span><span class="p">:</span> <span class="n">snack</span><span class="p">)</span> 
+</code></pre></li>
+<li><p><strong>Remove a snack</strong></p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">snack</span> <span class="o">=</span> <span class="kt">Snack</span><span class="p">()</span> 
+<span class="kt">SnackbarManager</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">snack</span><span class="p">)</span>
+</code></pre></li>
+<li><p><strong>Create a custom Snack</strong></p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">ImageSnack</span><span class="p">:</span> <span class="kt">Snack</span> <span class="p">{</span>
+    <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="n">named</span><span class="p">,</span> <span class="nv">reuseIdentifier</span><span class="p">:</span> <span class="s">"co.yml.page"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">getSnackAssociatedView</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SnackUpdatable</span> <span class="p">{</span>
+        <span class="kt">SnackImageView</span><span class="p">(</span><span class="nv">snack</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="kt">SnackImageView</span><span class="p">:</span> <span class="kt">UIImageView</span> <span class="p">{</span>
+    <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">snack</span><span class="p">:</span> <span class="kt">Snack</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">(</span><span class="nv">snack</span><span class="p">:</span> <span class="kt">Snack</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">snack</span> <span class="o">=</span> <span class="n">snack</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="n">snack</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+        <span class="nf">setUp</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="nv">coder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span> <span class="p">{</span> <span class="kc">nil</span> <span class="p">}</span>
+
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">setUp</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="o">.</span><span class="n">scaleAspectFit</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">SnackImageView</span><span class="p">:</span> <span class="kt">SnackUpdatable</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="n">_</span> <span class="nv">snack</span><span class="p">:</span> <span class="kt">Snack</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="n">snack</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">snack</span> <span class="o">=</span> <span class="n">snack</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></li>
+</ol>
+<h2 id='dependencies' class='heading'>Dependencies</h2>
+
+<p>Y—Snackbar depends upon our <a href="https://github.com/yml-org/ycoreui">Y—CoreUI</a> and <a href="https://github.com/yml-org/ymattertype">Y—MatterType</a> frameworks (both also open source and Apache 2.0 licensed).</p>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>You can add Y—Snackbar to an Xcode project by adding it as a package dependency.</p>
+
+<ol>
+<li>From the <strong>File</strong> menu, select <strong>Add Packages&hellip;</strong></li>
+<li>Enter &ldquo;<a href="https://github.com/yml-org/ysnackbar-ios">https://github.com/yml-org/ysnackbar-ios</a>&rdquo; into the package repository URL text field</li>
+<li>Click <strong>Add Package</strong></li>
+</ol>
+<h2 id='contributing-to-y-snackbar' class='heading'>Contributing to Y—Snackbar</h2>
+<h3 id='requirements' class='heading'>Requirements</h3>
+<h4 id='swiftlint-linter' class='heading'>SwiftLint (linter)</h4>
+<pre class="highlight plaintext"><code>brew install swiftlint
+</code></pre>
+<h4 id='jazzy-documentation' class='heading'>Jazzy (documentation)</h4>
+<pre class="highlight plaintext"><code>sudo gem install jazzy
+</code></pre>
+<h3 id='setup' class='heading'>Setup</h3>
+
+<p>Clone the repo and open <code>Package.swift</code> in Xcode.</p>
+<h3 id='versioning-strategy' class='heading'>Versioning strategy</h3>
+
+<p>We utilize <a href="https://semver.org">semantic versioning</a>.</p>
+<pre class="highlight plaintext"><code>{major}.{minor}.{patch}
+</code></pre>
+
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>1.0.5
+</code></pre>
+<h3 id='branching-strategy' class='heading'>Branching strategy</h3>
+
+<p>We utilize a simplified branching strategy for our frameworks.</p>
+
+<ul>
+<li>main (and development) branch is <code>main</code></li>
+<li>both feature (and bugfix) branches branch off of <code>main</code></li>
+<li>feature (and bugfix) branches are merged back into <code>main</code> as they are completed and approved.</li>
+<li><code>main</code> gets tagged with an updated version # for each release</li>
+</ul>
+<h3 id='branch-naming-conventions' class='heading'>Branch naming conventions:</h3>
+<pre class="highlight plaintext"><code>feature/{ticket-number}-{short-description}
+bugfix/{ticket-number}-{short-description}
+</code></pre>
+
+<p>e.g.</p>
+<pre class="highlight plaintext"><code>feature/CM-44-button
+bugfix/CM-236-textview-color
+</code></pre>
+<h3 id='pull-requests' class='heading'>Pull Requests</h3>
+
+<p>Prior to submitting a pull request you should:</p>
+
+<ol>
+<li>Compile and ensure there are no warnings and no errors.</li>
+<li>Run all unit tests and confirm that everything passes.</li>
+<li>Check unit test coverage and confirm that all new / modified code is fully covered.</li>
+<li>Run <code>swiftlint</code> from the command line and confirm that there are no violations.</li>
+<li>Run <code>jazzy</code> from the command line and confirm that you have 100% documentation coverage.</li>
+<li>Consider using <code>git rebase -i HEAD~{commit-count}</code> to squash your last {commit-count} commits together into functional chunks.</li>
+<li>If HEAD of the parent branch (typically <code>main</code>) has been updated since you created your branch, use <code>git rebase main</code> to rebase your branch.
+
+<ul>
+<li><em>Never</em> merge the parent branch into your branch.</li>
+<li><em>Always</em> rebase your branch off of the parent branch.</li>
+</ul></li>
+</ol>
+
+<p>When submitting a pull request:</p>
+
+<ul>
+<li>Use the <a href=".github/pull_request_template.md">provided pull request template</a> and populate the Introduction, Purpose, and Scope fields at a minimum.</li>
+<li>If you&rsquo;re submitting before and after screenshots, movies, or GIF&rsquo;s, enter them in a two-column table so that they can be viewed side-by-side.</li>
+</ul>
+
+<p>When merging a pull request:</p>
+
+<ul>
+<li>Make sure the branch is rebased (not merged) off of the latest HEAD from the parent branch. This keeps our git history easy to read and understand.</li>
+<li>Make sure the branch is deleted upon merge (should be automatic).</li>
+</ul>
+<h3 id='releasing-new-versions' class='heading'>Releasing new versions</h3>
+
+<ul>
+<li>Tag the corresponding commit with the new version (e.g. <code>1.0.5</code>)</li>
+<li>Push the local tag to remote</li>
+</ul>
+<h2 id='generating-documentation-via-jazzy' class='heading'>Generating Documentation (via Jazzy)</h2>
+
+<p>You can generate your own local set of documentation directly from the source code using the following command from Terminal:</p>
+<pre class="highlight plaintext"><code>jazzy
+</code></pre>
+
+<p>This generates a set of documentation under <code>/docs</code>. The default configuration is set in the default config file <code>.jazzy.yaml</code> file.</p>
+
+<p>To view additional documentation options type:</p>
+<pre class="highlight plaintext"><code>jazzy --help
+</code></pre>
+
+<p>A GitHub Action automatically runs each time a commit is pushed to <code>main</code> that runs Jazzy to generate the documentation for our GitHub page at: <a href="https://yml-org.github.io/ysnackbar-ios/">https://yml-org.github.io/ysnackbar-ios/</a></p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="https://yml.co" target="_blank" rel="external noopener">Y Media Labs</a>. All rights reserved. (Last updated: 2023-04-24)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
