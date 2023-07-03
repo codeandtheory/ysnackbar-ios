@@ -73,6 +73,7 @@ open class SnackView: UIView {
     /// :nodoc:
     required public init?(coder: NSCoder) { nil }
     
+    /// Performing the accessibility escape gesture hide the snackbar.
     public override func accessibilityPerformEscape() -> Bool {
         SnackbarManager.remove(snack: self.snack)
         return true
