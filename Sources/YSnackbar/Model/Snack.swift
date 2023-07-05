@@ -46,7 +46,7 @@ open class Snack {
         icon: UIImage? = nil,
         duration: TimeInterval = 4,
         appearance: Snack.Appearance = .default,
-        voRequiresInteraction: Bool = true
+        voRequiresInteraction: Bool = false
     ) {
         self.alignment = alignment
         self.title = title
