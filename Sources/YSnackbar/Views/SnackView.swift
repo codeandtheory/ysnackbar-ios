@@ -124,9 +124,8 @@ private extension SnackView {
         }
     }
     
-    @objc func hideSnackBar() -> Bool {
+    @objc func hideSnackBar() {
         SnackbarManager.remove(snack: self.snack)
-        return true
     }
 
     func updateViewAppearance() {
