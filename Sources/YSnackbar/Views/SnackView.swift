@@ -67,10 +67,17 @@ open class SnackView: UIView {
         build()
         updateViewAppearance()
         updateViewContent()
+        updateVoiceOverInteraction()
     }
 
     /// :nodoc:
     required public init?(coder: NSCoder) { nil }
+    
+    /// Performing the accessibility escape gesture hide the snackbar.
+    public override func accessibilityPerformEscape() -> Bool {
+        SnackbarManager.remove(snack: self.snack)
+        return true
+    }
 }
 
 private extension SnackView {
@@ -100,6 +107,25 @@ private extension SnackView {
         titleLabel.text = snack.title
         messageLabel.text = snack.message
         iconImageView.image = snack.icon
+    }
+    
+    func updateVoiceOverInteraction() {
+        if snack.voRequiresInteraction {
+            UIAccessibility.post(notification: .layoutChanged, argument: self)
+            isAccessibilityElement = true
+            let hideSnack = UIAccessibilityCustomAction(
+                name: "",
+                target: self,
+                selector: #selector(hideSnackBar)
+            )
+            accessibilityCustomActions = [hideSnack]
+        } else {
+            UIAccessibility.post(notification: .screenChanged, argument: "\(snack.title ?? "") \(snack.message)")
+        }
+    }
+    
+    @objc func hideSnackBar() {
+        SnackbarManager.remove(snack: self.snack)
     }
 
     func updateViewAppearance() {

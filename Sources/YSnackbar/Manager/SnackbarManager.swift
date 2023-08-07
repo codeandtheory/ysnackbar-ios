@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Manages an array of snacks
 public class SnackbarManager {
@@ -93,7 +94,11 @@ public class SnackbarManager {
 
     internal func startTimerIfNeeded(for snack: Snack) {
         guard snack.duration != .nan && snack.duration != .zero else { return }
-
+        
+        // Disable auto removal if `voRequiresInteraction` and `isVoiceOverRunning` enable.
+        if UIAccessibility.isVoiceOverRunning && snack.voRequiresInteraction {
+            return
+        }
         let timer = Timer.scheduledTimer(withTimeInterval: snack.duration, repeats: false) { [weak self] _ in
             guard let self = self else { return }
 

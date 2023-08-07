@@ -24,6 +24,8 @@ open class Snack {
     public let duration: TimeInterval
     /// Appearance for the snack view such as background color, shadow etc. Default is `.default`.
     public let appearance: Snack.Appearance
+    /// Voice over interaction require. Default is 'false'
+    public let voRequiresInteraction: Bool
 
     /// Initializes a `Snack`.
     /// - Parameters:
@@ -35,6 +37,7 @@ open class Snack {
     ///   - duration: total duration for how long the snack to be displayed. Default is 4 seconds
     ///   - appearance: appearance for the snack view such as background color, shadow etc.
     ///     Default is `.default`.
+    ///   - voRequiresInteraction: voice over interaction require. Default is 'false'
     public init(
         alignment: Alignment = SnackbarManager.defaultAlignment,
         title: String? = nil,
@@ -42,7 +45,8 @@ open class Snack {
         reuseIdentifier: String? = nil,
         icon: UIImage? = nil,
         duration: TimeInterval = 4,
-        appearance: Snack.Appearance = .default
+        appearance: Snack.Appearance = .default,
+        voRequiresInteraction: Bool = false
     ) {
         self.alignment = alignment
         self.title = title
@@ -51,6 +55,7 @@ open class Snack {
         self.icon = icon
         self.duration = duration
         self.appearance = appearance
+        self.voRequiresInteraction = voRequiresInteraction
     }
 
     /// Returns `SnackUpdatable` for the associated `Snack`.
